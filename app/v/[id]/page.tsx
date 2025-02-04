@@ -40,7 +40,7 @@ export async function generateMetadata(
     }
 
     const file = data.result[0];
-    const title = `Bokep ${file.title} - ${SITENAME}`;
+    const title = `Bokep ${file.title}`;
     const description = `Video Bokep {file.title} di {SITENAME} Video Bokep Indo Bocil Ngentot Jilbab Smp Mama Viral`;
     const image = file.splash_img;
     const previousOgImages = (await parent).openGraph?.images || [];
@@ -82,12 +82,32 @@ export default async function Video({ params }: PageProps) {
     }
 
     const file = data.result[0];
+	const jsonLd = {
+        '@context': 'https://schema.org',
+        '@type': 'WebPage',
+        name: `Bokep ${file.title}`,
+        image: file.splash_img,
+        description: `Video Bokep ${file.title} di ${SITENAME} Video Bokep Indo Bocil Ngentot Jilbab Smp Mama Viral`,
+        url: `https://viraldigilir.pages.dev/v/${file.filecode}`,
+        datePublished: new Date(
+            file.uploaded + ".000Z"
+        ).toISOString(),
+        publisher: {
+            '@type': 'Organization',
+            name: `${SITENAME}`,
+            logo: 'https://viraldigilir.pages.dev/favicon.ico'},
+            author: {
+                '@type': 'Person',
+                name: 'admin',
+                url: 'https://viraldigilir.pages.dev'
+              }
+        }
         const jsonLd2 = {
         '@context': 'https://schema.org',
         '@type': 'Article',
-        headline: `Bokep ${file.title} - ${SITENAME}`,
+        headline: `Bokep ${file.title}`,
         image: file.splash_img,
-        description: `Video Bokep {file.title} di {SITENAME} Video Bokep Indo Bocil Ngentot Jilbab Smp Mama Viral`,
+        description: `Video Bokep ${file.title} di ${SITENAME} Video Bokep Indo Bocil Ngentot Jilbab Smp Mama Viral`,
         url: `https://viraldigilir.pages.dev/v/${file.filecode}`,
         datePublished: new Date(
             file.uploaded + ".000Z"
@@ -104,9 +124,22 @@ export default async function Video({ params }: PageProps) {
         }
         
     return (
-        <div className="grid col-span-full gap-4 md:gap-4 md:mx-10">
+        <div className="grid col-span-full gap-4 md:gap-4 md:mx-10" itemProp="video" itemScope itemType="http://schema.org/VideoObject">
+<meta itemProp="author" content="admin" />
+<meta itemProp="name" content={`${file.title}`} />
+<meta itemProp="description" content={`Video Bokep ${file.title} di ${SITENAME} Video Bokep Indo Bocil Ngentot Jilbab Smp Mama Viral`} />
+<meta itemProp="duration" content={`${file.length}`} />
+<meta itemProp="thumbnailUrl" content={`${file.splash_img}`} />
+<meta itemProp="embedURL" content={`https://doodstream.com/e/${file.filecode}`} />
+<meta itemProp="uploadDate" content={`${new Date(
+            file.uploaded + ".000Z"
+        ).toISOString()}`} />
         <section>
         {/* Add JSON-LD to your page */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd2) }}
@@ -115,7 +148,7 @@ export default async function Video({ params }: PageProps) {
         </section>
             <iframe
                 className="w-full h-[30vh] md:h-[55vh] lg:h-[70vh]"
-                src={`https://${upstream}/e/${file.filecode}`}
+                src={`https://doodstream.com/e/${file.filecode}`}
                 scrolling="no"
                 title={file.title}
                 frameBorder={0}
@@ -131,11 +164,11 @@ export default async function Video({ params }: PageProps) {
        		     <p>Video Bokep {file.title} di {SITENAME} Video Bokep Indo Bocil Ngentot Jilbab Smp Mama Viral Sma Tante Live Paksa Bokep Abg Jepang Jav Barat Korea China Terbaru Video Bokep Indo Jepang Jav Barat Simontok Viral Terbaru Bocil Ngentot Jilbab Smp Mama Sma hub sotwe olmek avtube pijat pure gudang pemerkosaan rumah tobrut inggris ngintip vcs binor yandex update remaja {SITENAME} wiki raja bokeptube full porno bokepmama simontok bokepind playbokep indobokep xpanasonline indoh janda streaming jepang barat korea japan jav cina japanese china rusia arab india thailand hd anime hentai bokepind gudang avtub pijat sotwe rumah pemerkosaan inggris xpanas pure tobrut vcs ngintip binor remaja yandex update perselingkuhan wiki raja full com porno indoh</p>
 		</CardContent>
             </Card>
+<Script src="https://js.juicyads.com/jp.php?c=947403z2v256s2x2x294z2b4&u=http%3A%2F%2Fwww.juicyads.rocks"/>
             <h2 className="text-2xl font-bold text-center my-4">
                 Related Video Bokep {file.title}
             </h2>
             <SearchCardList query={file.title.split(" ")[2]} />
-<Script src="https://js.juicyads.com/jp.php?c=947403z2v256s2x2x294z2b4&u=http%3A%2F%2Fwww.juicyads.rocks"/>
         </div>
     );
 }
